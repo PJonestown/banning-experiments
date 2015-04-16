@@ -5,16 +5,19 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find by(name: params[:session][:name].downcase)
+    user = User.find_by(name: params[:session][:name].downcase)
     if user
+      log_in(user) 
+      redirect_to user
     else
-      flash.now[:danger] = 'name not in database'
+      flash.now[:alert] = 'name not in database'
       render 'new'
     end
 
   end
 
   def destroy
-
+    log_out
+    redirect_to root_url
   end
 end

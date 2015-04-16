@@ -10,5 +10,12 @@
 
 <%= yield %>
 
+<% if logged_in? %>
+  <p> Signed in as <%= current_user.name %> </p>
+  <%= link_to 'logout', logout_path, method: :delete %> 
+<% else %>
+  <%= link_to 'Sign In', login_path %>
+<% end %>
+
 </body>
 </html>
