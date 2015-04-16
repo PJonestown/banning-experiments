@@ -1,6 +1,6 @@
-<h1>Sign Up!</h1>
+<h1>log in</h1>
 
-<%= simple_form_for(@user) do |f| %>
+<%= simple_form_for(:session, url: login_path) do |f| %>  
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -11,3 +11,5 @@
     <%= f.button :submit %>
   </div>
 <% end %>
+
+<p>New user? <%= link_to "Sign up now!", new_user_path %></p>
