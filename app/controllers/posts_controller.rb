@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :admin, only: [:edit, :update, :destroy] 
-  before_action :logged_in_user, only: [:new, :create]
+  before_action :unbanned_user, only: [:new, :create]
 
   # GET /posts
   # GET /posts.json
@@ -17,7 +17,8 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
-  end
+  
+    end
 
   # GET /posts/1/edit
   def edit
@@ -82,7 +83,8 @@ class PostsController < ApplicationController
       end
     end
 
-    def logged_in_user
-      redirect_to(new_user_path) unless logged_in?
+    def unbanned_user
+      redirect_to(new_user_path) unless 
+        logged_in? and !current_user.banned?
     end
 end
