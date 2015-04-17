@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show]
+  before_action :set_user, only: [:show, :destroy, :edit, :update]
+  before_action :admin, only: [:destroy, :index, :edit, :update]
 
   def index
     @users = User.all
@@ -10,6 +11,10 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+  end
+
+  def edit
+
   end
 
   def create
@@ -23,6 +28,20 @@ class UsersController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+    # PATCH/PUT /posts/1
+  # PATCH/PUT /posts/1.json
+  def update
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: 'Post was successfully updated.' }
+        format.json { render :show, status: :ok, location: @post }
+      else
+        format.html { render :edit }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -43,4 +62,13 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :banned)
     end
+
+    def admin
+      if logged_in?
+        redirect_to(root_url) unless current_user.admin
+      else
+        redirect_to(root_url)
+      end
+    end
+
 end

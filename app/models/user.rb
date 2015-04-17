@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
-  has_many :posts
+  has_many :posts, dependent: :destroy
 
-   validates :name, presence: true, uniqueness: { case_sensitive: false },
-     :length => { maximum: 20 }
+  validates :name, presence: true, uniqueness: true, 
+    :length => { maximum: 20 }
 
-   def to_s
+  def to_s
     self.name
-   end
+  end
 
 end
